@@ -1,18 +1,24 @@
 ---
 title: Documentation
-next: first-page
+type: docs
+next: docs/api
+sidebar:
+  open: true
 ---
 
-This is a demo of the theme's documentation layout.
+Welcome to the Spaces documentation. This site covers:
 
-## Hello, World!
+## Writing Spaces Starlark Rules
 
-```go {filename="main.go"}
-package main
+Starlark is a python dialect. The symbols can be found in:
 
-import "fmt"
-
-func main() {
-    fmt.Println("Hello, World!")
-}
-```
+- [The Starlark Specification](https://github.com/bazelbuild/starlark/blob/master/spec.md)
+  - Spaces allows top level `if` and `for` statements (a dialect extension)
+- [Builtins](stardoc/built-ins/)
+- `load()` Statements
+  - [info](stardoc/@star/sdk/star/info/)
+  - [checkout](stardoc/@star/sdk/star/checkout/)
+  - [run](stardoc/@star/sdk/star/run/)
+  - [shell](stardoc/@star/sdk/star/shell/)
+  - [spaces environment](stardoc/@star/sdk/star/spaces-env/)
+  - [workspace](stardoc/@star/sdk/star/ws/)
