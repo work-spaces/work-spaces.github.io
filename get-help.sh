@@ -3,7 +3,7 @@
 
 cat > content/docs/help.md << 'EOF'
 ---
-title: Spaces Help Reference
+title: Help Reference
 toc: true
 weight: 8
 ---

@@ -8,6 +8,29 @@ load(
     "checkout_add_which_asset",
     "checkout_update_asset",
 )
+
+# To get the documentation to generate a function needs to
+# be loaded from each file to document
+load("//@star/sdk/star/capsule.star", "capsule_get_rule_name")
+load("//@star/sdk/star/cmake.star", "cmake_get_default_prefix_paths")
+load("//@star/sdk/star/gnu.star", "gnu_add_configure_make_install")
+load("//@star/sdk/star/script.star", "script_print")
+load("//@star/sdk/star/std/fs.star", "fs_read_directory")
+load("//@star/sdk/star/std/hash.star", "hash_compute_sha256_from_file")
+load("//@star/sdk/star/std/json.star", "json_loads")
+load("//@star/sdk/star/std/time.star", "time_now")
+
+# packages to add to docs
+load("//@star/packages/star/ccache.star", "ccache_add")
+load("//@star/packages/star/bazelisk.star", "bazelisk_add")
+load("//@star/packages/star/cmake.star", "cmake_add")
+load("//@star/packages/star/llvm.star", "llvm_add")
+load("//@star/packages/star/python.star", "python_add_uv")
+load("//@star/packages/star/rust.star", "rust_add")
+load("//@star/packages/star/sccache.star", "sccache_add")
+load("//@star/packages/star/shfmt.star", "shfmt_add")
+load("//@star/packages/star/spaces-cli.star", "spaces_add")
+
 load("//@star/sdk/star/run.star", "run_add_exec", "RUN_EXPECT_ANY")
 load("//@star/sdk/star/shell.star", "shell")
 load("//@star/sdk/star/oras.star", "oras_add_publish_archive")

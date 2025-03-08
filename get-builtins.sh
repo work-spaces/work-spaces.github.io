@@ -8,6 +8,8 @@ toc: true
 weight: 7
 ---
 
+The contents of this page can be generated using:
+
 ```sh
 spaces docs
 ```
