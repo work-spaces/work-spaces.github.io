@@ -46,15 +46,15 @@ run_add_exec(
     inputs = []
 )
 
-shell(
+run_add_exec(
     "builtins",
-    script = "spaces docs > content/docs/builtins.md",
+    command = "./get-builtins.sh",
     working_directory = "."
 )
 
 run_add_exec(
     "help",
-    command = "./get_help.sh",
+    command = "./get-help.sh",
     working_directory = ".",
 )
 
@@ -62,7 +62,6 @@ run_add_exec(
 REMOVE_FILES = [
     "@star/sdk/star/_index.md",
     "@star/packages/star/_index.md",
-    "_index.md",
     "env.spaces.md",
     "preload.spaces.md",
     "spaces-docs.spaces.md",

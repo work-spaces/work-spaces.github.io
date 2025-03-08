@@ -3,15 +3,11 @@ title: Spaces Docs
 toc: false
 ---
 
-Welcome to the Spaces Documentation!
-
-## Documentation
+## Welcome to the Spaces Documentation
 
 {{< cards >}}
-  {{< card link="https://github.com/work-spaces/spaces" title="Spaces" icon="book-open" >}}
-  {{< card link="docs/builtins/" title="Built-ins" icon="book-open" >}}
-  {{< card link="docs" title="Readme" icon="book-open" >}}
-  {{< card link="docs/@star/sdk/" title="SDK" icon="book-open" >}}
-  {{< card link="docs/@star/packages/" title="Packages" icon="book-open" >}}
-  {{< card link="docs/help/" title="Help" icon="book-open" >}}
+  {{< card link="docs/getting-started/" title="Quick Start" icon="arrow-circle-right" >}}
+  {{< card link="docs" title="Docs" icon="book-open" >}}
+  {{< card link="docs/why-spaces" title="Why Spaces" icon="question-mark-circle" >}}
+  {{< card link="https://github.com/work-spaces/spaces" title="Code" icon="github" >}}
 {{< /cards >}}

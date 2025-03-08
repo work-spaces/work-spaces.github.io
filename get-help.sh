@@ -1,9 +1,12 @@
 
 #!/bin/bash
 
-# Method 1: Using a here document (EOF)
 cat > content/docs/help.md << 'EOF'
-## Spaces Help
+---
+title: Spaces Help Reference
+toc: true
+weight: 8
+---
 
 ```sh
 spaces --help
