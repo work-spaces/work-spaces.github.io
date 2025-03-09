@@ -89,16 +89,18 @@ Run rules build a dependency graph of targets. Run rules have:
 - An Action
     - For example, `run.add_exec()` adds a process (`command` and `args`) to the depedency graph.
 
-Execute all non-optional rules (plus dependencies) using:
+Execute rules includes with `//:all` plus their depedencies.
 
 ```sh
 spaces run
+# equivalent to
+spaces run //:all
 ```
 
 Execute a specific rule plus dependencies:
 
 ```sh
-spaces run my-project:build
+spaces run //my-project:build
 ```
 
 To enter the `spaces` execution environment used by `spaces run`, use:
@@ -106,3 +108,5 @@ To enter the `spaces` execution environment used by `spaces run`, use:
 ```sh
 source ./env
 ```
+
+> `spaces` unsets all other variables. `source ./env` does not `unset` values.

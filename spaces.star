@@ -81,6 +81,12 @@ run_add_exec(
     working_directory = ".",
 )
 
+run_add_exec(
+    "version",
+    command = "./get-version.sh",
+    working_directory = ".",
+)
+
 
 REMOVE_FILES = [
     "@star/sdk/star/_index.md",
@@ -120,7 +126,13 @@ run_add_exec(
         "build",
     ],
     working_directory = ".",
-    deps = ["touch_index_files", "clean_index_files", "builtins", "help"]
+    deps = [
+        "touch_index_files", 
+        "clean_index_files", 
+        "builtins", 
+        "help", 
+        "version"
+    ]
 )
 
 
