@@ -156,23 +156,22 @@ run_add_exec(
     help = "Build the release version of the site for deployment"
 )
 
+cp(
+    "cp_release_public",
+    source = "work-spaces.github.io/public",
+    destination = "public",
+    options = ["-rf"],
+    deps = ["build_release"]
+)
+
 gh_add_publish_archive(
     "work-spaces.github.io",
     input = "public",
     version = "{}-1".format(SPACES_VERSION),
     deploy_repo = "https://github.com/work-spaces/work-spaces.github.io",
-    deps = ["build_release"],
+    deps = ["cp_release_public"],
     suffix = "tar.gz",
 )
-
-cp(
-    "deploy_release",
-    source = "work-spaces.github.io/public",
-    destination = "public",
-    options = ["-rf"],
-    deps = ["build_release", "work-spaces.github.io"]
-)
-
 
 run_add_exec(
     "serve",

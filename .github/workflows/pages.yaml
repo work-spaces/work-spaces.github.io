@@ -42,7 +42,7 @@ jobs:
         timeout-minutes: 5
 
       - name: Spaces Run
-        run: cd workspace && spaces --ci run //work-spaces.github.io:deploy_release
+        run: cd workspace && spaces --ci run //work-spaces.github.io:work-spaces.github.io
         timeout-minutes: 5
 
       - name: Upload artifact
