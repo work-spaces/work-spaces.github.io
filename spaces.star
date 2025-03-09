@@ -7,7 +7,7 @@ load(
     "//@star/sdk/star/checkout.star",
     "checkout_add_which_asset",
     "checkout_update_asset",
-    "chekcout_update_env"
+    "checkout_update_env"
 )
 
 load("//@star/sdk/star/gh.star", "gh_add_publish_archive")
