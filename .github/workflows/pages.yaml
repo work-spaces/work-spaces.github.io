@@ -2,9 +2,9 @@
 name: Deploy Hugo site to Pages
 
 on:
-  # Runs on pushes targeting the default branch
   push:
-    branches: ["main"]
+    tags:
+      - 'v*.*.*'  # Trigger on version tags
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -30,38 +30,25 @@ jobs:
   # Build job
   build:
     runs-on: ubuntu-latest
-    env:
-      HUGO_VERSION: 0.132.2
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # fetch all history for .GitInfo and .Lastmod
-          submodules: recursive
-      - name: Setup Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.22'
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@v4
-      - name: Setup Hugo
-        run: |
-          wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
-          && sudo dpkg -i ${{ runner.temp }}/hugo.deb
-      - name: Build with Hugo
-        env:
-          # For maximum backward compatibility with Hugo modules
-          HUGO_ENVIRONMENT: production
-          HUGO_ENV: production
-        run: |
-          hugo \
-            --gc --minify \
-            --baseURL "${{ steps.pages.outputs.base_url }}/"
+      - name: Install Spaces CLI
+        uses: work-spaces/install-spaces@v0.14.6
+
+      - name: Clone Workflows Repository
+        run: git clone https://github.com/work-spaces/workflows.git
+
+      - name: Spaces Checkout
+        run: spaces --ci checkout --workflow=workflows:spaces-docs --name=workspace
+        timeout-minutes: 5
+
+      - name: Spaces Run
+        run: cd workspace && spaces --ci run //work-spaces.github.io:deploy_release
+        timeout-minutes: 5
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./public
+          path: ./workspace/public
 
   # Deployment job
   deploy:

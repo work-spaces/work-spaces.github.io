@@ -15,7 +15,7 @@ spaces 0.14.6
 [SDK](https://github.com/work-spaces/sdk) version:
 
 ```
-v0.3.5
+v0.3.6
 ```
 
 [Packages](https://github.com/work-spaces/packages) version:

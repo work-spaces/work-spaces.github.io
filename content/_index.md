@@ -11,3 +11,9 @@ toc: false
   {{< card link="docs/why-spaces" title="Why Spaces" icon="question-mark-circle" >}}
   {{< card link="https://github.com/work-spaces/spaces" title="Code" icon="github" >}}
 {{< /cards >}}
+
+## Install
+
+```sh
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/work-spaces/install-spaces/refs/heads/main/install.sh)"
+```

@@ -9,6 +9,9 @@ load(
     "checkout_update_asset",
 )
 
+load("//@star/sdk/star/gh.star", "gh_add_publish_archive")
+
+
 # To get the documentation to generate a function needs to
 # be loaded from each file to document
 load("//@star/sdk/star/capsule.star", "capsule_get_rule_name")
@@ -32,7 +35,7 @@ load("//@star/packages/star/shfmt.star", "shfmt_add")
 load("//@star/packages/star/spaces-cli.star", "spaces_add")
 
 load("//@star/sdk/star/run.star", "run_add_exec", "RUN_EXPECT_ANY")
-load("//@star/sdk/star/shell.star", "shell")
+load("//@star/sdk/star/shell.star", "cp")
 load("//@star/sdk/star/oras.star", "oras_add_publish_archive")
 load("//@star/sdk/star/process.star", "process_exec")
 load("//@star/sdk/star/ws.star", "workspace_get_path_to_checkout")
@@ -53,6 +56,8 @@ checkout_update_asset(
     ],
 )
 
+SPACES_VERSION = "v0.14.6"
+spaces_add("spaces0", SPACES_VERSION)
 #checkout_add_which_asset(
 #    "which_spaces",
 #    which = "spaces",
@@ -101,7 +106,7 @@ REMOVE_FILES = [
 run_add_exec(
     "clean_index_files",
     command = "rm",
-    args = ["content/docs/{}".format(file) for file in REMOVE_FILES],
+    args = ["-f"] + ["content/docs/{}".format(file) for file in REMOVE_FILES],
     deps = ["stardoc"],
     working_directory = "."
 )
@@ -119,6 +124,14 @@ run_add_exec(
     working_directory = "."
 )
 
+BUILD_DEPS = [
+        "touch_index_files", 
+        "clean_index_files", 
+        "builtins", 
+        "help", 
+        "version"
+]
+
 run_add_exec(
     "build",
     command = "hugo",
@@ -126,13 +139,37 @@ run_add_exec(
         "build",
     ],
     working_directory = ".",
-    deps = [
-        "touch_index_files", 
-        "clean_index_files", 
-        "builtins", 
-        "help", 
-        "version"
-    ]
+    deps = BUILD_DEPS
+)
+
+run_add_exec(
+    "build_release",
+    command = "hugo",
+    args = [
+        "build",
+        "--minify",
+        "--baseURL=https://work-spaces.github.io/",
+    ],
+    working_directory = ".",
+    deps = BUILD_DEPS,
+    help = "Build the release version of the site for deployment"
+)
+
+gh_add_publish_archive(
+    "create_gh_release",
+    input = "public",
+    version = "{}-0".format(SPACES_VERSION),
+    deploy_repo = "https://github.com/work-spaces/work-spaces.github.io",
+    deps = ["build_release"],
+    suffix = "tar.gz",
+)
+
+cp(
+    "deploy_release",
+    source = "work-spaces.github.io/public",
+    destination = "public",
+    options = ["-rf"],
+    deps = ["build_release", "create_gh_release"]
 )
 
 
@@ -143,11 +180,13 @@ run_add_exec(
         "server"
     ],
     deps = ["build"],
-    working_directory = "."
+    working_directory = ".",
+    help = "Serve the site locally"
 )
 
 run_add_exec(
     "hugo",
     command = "hugo",
-    working_directory = "."
+    working_directory = ".",
+    help = "This is useful for debugging hugo commands with `spaces run hugo -- --help`"
 )

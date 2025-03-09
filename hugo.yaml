@@ -42,4 +42,4 @@ params:
 
   editURL:
     enable: true
-    base: "https://github.com/work-spaces/spaces"
+    base: "https://github.com/work-spaces/work-spaces.github.io"
