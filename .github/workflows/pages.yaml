@@ -46,7 +46,9 @@ jobs:
       - name: Spaces Checkout
         run: spaces --ci checkout --workflow=workflows:spaces-docs --name=workspace
         timeout-minutes: 5
-
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
       - name: Spaces Run
         run: cd workspace && spaces --ci run //work-spaces.github.io:work-spaces.github.io
         timeout-minutes: 5
