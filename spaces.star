@@ -7,6 +7,7 @@ load(
     "//@star/sdk/star/checkout.star",
     "checkout_add_which_asset",
     "checkout_update_asset",
+    "chekcout_update_env"
 )
 
 load("//@star/sdk/star/gh.star", "gh_add_publish_archive")
@@ -45,6 +46,14 @@ package_add("github.com", "cli", "cli", "v2.68.1")
 package_add("go.dev", "go", "go", "1.23.3")
 
 CHECKOUT_PATH = workspace_get_path_to_checkout()
+
+if info.is_ci():
+    checkout_update_env(
+        "ci_github_token",
+        inherited_vars = [
+            "GITHUB_TOKEN"
+        ]
+    )
 
 checkout_update_asset(
     "vscode_recommendations",
