@@ -41,6 +41,7 @@ load("//@star/sdk/star/process.star", "process_exec")
 load("//@star/sdk/star/ws.star", "workspace_get_path_to_checkout")
 
 package_add("github.com", "gohugoio", "hugo", "v0.145.0")
+package_add("github.com", "cli", "cli", "v2.68.1")
 package_add("go.dev", "go", "go", "1.23.3")
 
 CHECKOUT_PATH = workspace_get_path_to_checkout()
@@ -56,8 +57,8 @@ checkout_update_asset(
     ],
 )
 
-SPACES_VERSION = "v0.14.6"
-spaces_add("spaces0", SPACES_VERSION)
+SPACES_VERSION = "0.14.6"
+spaces_add("spaces0", "v{}".format(SPACES_VERSION))
 #checkout_add_which_asset(
 #    "which_spaces",
 #    which = "spaces",
@@ -156,9 +157,9 @@ run_add_exec(
 )
 
 gh_add_publish_archive(
-    "create_gh_release",
+    "work-spaces.github.io",
     input = "public",
-    version = "{}-0".format(SPACES_VERSION),
+    version = "{}-1".format(SPACES_VERSION),
     deploy_repo = "https://github.com/work-spaces/work-spaces.github.io",
     deps = ["build_release"],
     suffix = "tar.gz",
@@ -169,7 +170,7 @@ cp(
     source = "work-spaces.github.io/public",
     destination = "public",
     options = ["-rf"],
-    deps = ["build_release", "create_gh_release"]
+    deps = ["build_release", "work-spaces.github.io"]
 )
 
 
