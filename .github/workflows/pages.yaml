@@ -44,11 +44,15 @@ jobs:
       - name: Spaces Run
         run: cd workspace && spaces --ci run //work-spaces.github.io:work-spaces.github.io
         timeout-minutes: 5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./workspace/public
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # Deployment job
   deploy:
