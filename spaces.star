@@ -55,24 +55,8 @@ if info.is_ci():
         ]
     )
 
-checkout_update_asset(
-    "vscode_recommendations",
-    destination = ".vscode/recommendations.json",
-    value = [
-        "mhutchie.git-graph",
-        "esbenp.prettier-vscode",
-        "tamasfe.even-better-toml",
-        "budparr.language-hugo-vscode",
-    ],
-)
-
 SPACES_VERSION = "0.14.6"
 spaces_add("spaces0", "v{}".format(SPACES_VERSION))
-#checkout_add_which_asset(
-#    "which_spaces",
-#    which = "spaces",
-#    destination = "sysroot/bin/spaces",
-#)
 
 run_add_exec(
     "stardoc",
@@ -178,7 +162,7 @@ cp(
 gh_add_publish_archive(
     "work-spaces.github.io",
     input = "public",
-    version = "{}-1".format(SPACES_VERSION),
+    version = "{}-2".format(SPACES_VERSION),
     deploy_repo = "https://github.com/work-spaces/work-spaces.github.io",
     deps = ["cp_release_public"],
     suffix = "tar.gz",
