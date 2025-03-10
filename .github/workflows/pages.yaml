@@ -36,6 +36,8 @@ jobs:
       contents: write
       pull-requests: write
       repository-projects: write
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Install Spaces CLI
         uses: work-spaces/install-spaces@v0.14.6
@@ -46,21 +48,15 @@ jobs:
       - name: Spaces Checkout
         run: spaces --ci checkout --workflow=workflows:spaces-docs --name=workspace
         timeout-minutes: 5
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+
       - name: Spaces Run
-        run: cd workspace && spaces --ci run //work-spaces.github.io:work-spaces.github.io
+        run: cd workspace && spaces --ci run //work-spaces.github.io:cp_release_public
         timeout-minutes: 5
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./workspace/public
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # Deployment job
   deploy:
