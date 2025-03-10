@@ -47,11 +47,11 @@ jobs:
 
       - name: Spaces Checkout
         run: spaces --ci checkout --workflow=workflows:spaces-docs --name=workspace
-        timeout-minutes: 5
+        timeout-minutes: 10
 
       - name: Spaces Run
         run: cd workspace && spaces --ci run //work-spaces.github.io:cp_release_public
-        timeout-minutes: 5
+        timeout-minutes: 20
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
