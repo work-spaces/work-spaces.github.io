@@ -158,9 +158,11 @@ run_add_exec(
     args = [
         "build",
         "--minify",
+        "--logLevel=debug",
         "--baseURL=https://work-spaces.github.io/",
     ],
     working_directory = ".",
+    log_level = "App",
     deps = BUILD_DEPS,
     help = "Build the release version of the site for deployment"
 )
