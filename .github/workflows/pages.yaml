@@ -31,7 +31,7 @@ defaults:
 jobs:
   # Build job
   build:
-    runs-on: ubuntu-20.04
+    runs-on: macos-latest
     permissions:
       contents: write
       pull-requests: write
@@ -50,8 +50,8 @@ jobs:
         timeout-minutes: 10
 
       - name: Spaces Run
-        run: cd workspace && spaces --ci run //work-spaces.github.io:cp_release_public
-        timeout-minutes: 20
+        run: cd workspace && spaces --ci run //work-spaces.github.io:work-spaces.github.io
+        timeout-minutes: 30
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
