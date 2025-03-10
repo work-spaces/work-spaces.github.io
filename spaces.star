@@ -165,7 +165,6 @@ run_add_exec(
     log_level = "App",
     deps = BUILD_DEPS,
     help = "Build the release version of the site for deployment",
-    timeout = 300
 )
 
 cp(
