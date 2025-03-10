@@ -162,7 +162,7 @@ cp(
 gh_add_publish_archive(
     "work-spaces.github.io",
     input = "public",
-    version = "{}-2".format(SPACES_VERSION),
+    version = "{}-3".format(SPACES_VERSION),
     deploy_repo = "https://github.com/work-spaces/work-spaces.github.io",
     deps = ["cp_release_public"],
     suffix = "tar.gz",
