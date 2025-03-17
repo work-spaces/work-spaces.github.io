@@ -55,7 +55,7 @@ if info.is_ci():
         ]
     )
 
-SPACES_VERSION = "0.14.6"
+SPACES_VERSION = "0.14.7"
 spaces_add("spaces0", "v{}".format(SPACES_VERSION))
 
 run_add_exec(
