@@ -55,7 +55,7 @@ if info.is_ci():
         ]
     )
 
-SPACES_VERSION = "0.14.15"
+SPACES_VERSION = "0.15.1"
 spaces_add("spaces0", "v{}".format(SPACES_VERSION))
 
 run_add_exec(
@@ -119,10 +119,10 @@ run_add_exec(
 )
 
 BUILD_DEPS = [
-        "touch_index_files", 
-        "clean_index_files", 
-        "builtins", 
-        "help", 
+        "touch_index_files",
+        "clean_index_files",
+        "builtins",
+        "help",
         "version"
 ]
 
