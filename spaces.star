@@ -1,5 +1,18 @@
 """
-Spaces
+
+To update the Spaces docs:
+
+```sh
+# run locally to check everything is working.
+spaces checkout-repo --url=https://github.com/work-spaces/work-spaces.github.io --rev=main --name=update-spaces-docs
+# update the preload versions and spaces version
+spaces run //work-spaces.github.io:work-spaces.github.io_archive
+```
+
+Commit and push changes to the `main` branch.
+
+Then manually run the action to publish the github pages.
+
 """
 
 load("//@star/packages/star/package.star", "package_add")
@@ -15,7 +28,6 @@ load("//@star/sdk/star/gh.star", "gh_add_publish_archive")
 
 # To get the documentation to generate a function needs to
 # be loaded from each file to document
-load("//@star/sdk/star/capsule.star", "capsule_get_rule_name")
 load("//@star/sdk/star/cmake.star", "cmake_get_default_prefix_paths")
 load("//@star/sdk/star/gnu.star", "gnu_add_configure_make_install")
 load("//@star/sdk/star/script.star", "script_print")
@@ -34,6 +46,7 @@ load("//@star/packages/star/rust.star", "rust_add")
 load("//@star/packages/star/sccache.star", "sccache_add")
 load("//@star/packages/star/shfmt.star", "shfmt_add")
 load("//@star/packages/star/spaces-cli.star", "spaces_add")
+load("//@star/packages/star/starship.star", "starship_add_bash")
 
 load("//@star/sdk/star/run.star", "run_add_exec", "RUN_EXPECT_ANY")
 load("//@star/sdk/star/shell.star", "cp")
@@ -45,6 +58,14 @@ package_add("github.com", "gohugoio", "hugo", "v0.145.0")
 package_add("github.com", "cli", "cli", "v2.68.1")
 package_add("go.dev", "go", "go", "1.23.3")
 
+load("//@star/sdk/star/info.star", "info_set_required_semver")
+load("//@star/sdk/star/spaces-env.star", "spaces_working_env")
+
+info_set_required_semver(">0.10, <0.20.1")
+
+spaces_working_env()
+starship_add_bash("starship_bash")
+
 CHECKOUT_PATH = workspace_get_path_to_checkout()
 
 if info.is_ci():
@@ -55,7 +76,7 @@ if info.is_ci():
         ]
     )
 
-SPACES_VERSION = "0.15.1"
+SPACES_VERSION = "0.15.5"
 spaces_add("spaces0", "v{}".format(SPACES_VERSION))
 
 run_add_exec(
