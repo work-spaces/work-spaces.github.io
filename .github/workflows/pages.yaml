@@ -38,11 +38,8 @@ jobs:
       - name: Install Spaces CLI
         uses: work-spaces/install-spaces@v0.15.5
 
-      - name: Clone Workflows Repository
-        run: git clone https://github.com/work-spaces/workflows.git
-
       - name: Spaces Checkout
-        run: spaces --ci checkout --workflow=workflows:spaces-docs --name=workspace
+        run: spaces checkout-repo --url=https://github.com/work-spaces/work-spaces.github.io --rev=main --name=workspace
         timeout-minutes: 10
 
       - name: Spaces Run
