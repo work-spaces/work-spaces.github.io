@@ -36,7 +36,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Install Spaces CLI
-        uses: work-spaces/install-spaces@v0.14.9
+        uses: work-spaces/install-spaces@v0.15.5
 
       - name: Clone Workflows Repository
         run: git clone https://github.com/work-spaces/workflows.git
