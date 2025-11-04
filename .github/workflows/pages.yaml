@@ -39,7 +39,7 @@ jobs:
         uses: work-spaces/install-spaces@v0.15.5
 
       - name: Spaces Checkout
-        run: spaces checkout-repo --url=https://github.com/work-spaces/work-spaces.github.io --rev=main --name=workspace
+        run: spaces --ci checkout-repo --url=https://github.com/work-spaces/work-spaces.github.io --rev=main --name=workspace
         timeout-minutes: 10
 
       - name: Spaces Run
