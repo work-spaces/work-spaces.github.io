@@ -75,6 +75,9 @@ if info.is_ci():
             "GITHUB_TOKEN"
         ]
     )
+else:
+    spaces_working_env()
+    starship_add_bash("starship_bash", shortcuts = {})
 
 SPACES_VERSION = "0.15.5"
 spaces_add("spaces0", "v{}".format(SPACES_VERSION))
