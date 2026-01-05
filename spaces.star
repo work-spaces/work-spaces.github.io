@@ -63,8 +63,6 @@ load("//@star/sdk/star/spaces-env.star", "spaces_working_env")
 
 info_set_required_semver(">0.10, <0.20.1")
 
-starship_add_bash("starship_bash", shortcuts = {})
-
 CHECKOUT_PATH = workspace_get_path_to_checkout()
 
 if info.is_ci():
