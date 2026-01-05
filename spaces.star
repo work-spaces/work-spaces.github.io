@@ -76,7 +76,7 @@ else:
     spaces_working_env()
     starship_add_bash("starship_bash", shortcuts = {})
 
-SPACES_VERSION = "0.15.5"
+SPACES_VERSION = "0.15.17"
 spaces_add("spaces0", "v{}".format(SPACES_VERSION))
 
 run_add_exec(
