@@ -65,6 +65,8 @@ info_set_required_semver(">0.10, <0.20.1")
 
 CHECKOUT_PATH = workspace_get_path_to_checkout()
 
+spaces_working_env()
+
 if info.is_ci():
     checkout_update_env(
         "ci_github_token",
@@ -73,7 +75,6 @@ if info.is_ci():
         ]
     )
 else:
-    spaces_working_env()
     starship_add_bash("starship_bash", shortcuts = {})
 
 SPACES_VERSION = "0.15.17"
