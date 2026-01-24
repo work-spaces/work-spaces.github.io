@@ -36,7 +36,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Install Spaces CLI
-        uses: work-spaces/install-spaces@v0.15.21
+        uses: work-spaces/install-spaces@v0.15.20
 
       - name: Spaces Checkout
         run: spaces --ci checkout-repo --url=https://github.com/work-spaces/work-spaces.github.io --rev=main --name=workspace
