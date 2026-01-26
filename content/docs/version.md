@@ -9,17 +9,17 @@ This documention covers:
 [Spaces](https://github.com/work-spaces/spaces) version:
 
 ```
-spaces 0.15.17
+spaces 0.15.21
 ```
 
 [SDK](https://github.com/work-spaces/sdk) version:
 
 ```
-v0.3.16
+v0.3.21
 ```
 
 [Packages](https://github.com/work-spaces/packages) version:
 
 ```
-v0.2.29
+v0.2.32
 ```
