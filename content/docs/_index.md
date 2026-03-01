@@ -8,7 +8,7 @@ Welcome to `spaces` Documentation:
 - [Getting Started](getting-started/)
 - [Why spaces?](why-spaces/)
 - [Installation](installation/)
-- [Writing Starlark Rules](writing-rules/)
+- [Writing Rules](writing-starlark-rules/)
 - [Using spaces](using-spaces/)
 - [Uninstall spaces](uninstall-spaces/)
 - [Builtin Functions](builtins/)

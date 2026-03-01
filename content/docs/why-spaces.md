@@ -33,40 +33,22 @@ Downloaded artifacts are hashed and managed in the `spaces` store for efficient 
 All workflows use the same commands:
 
 ```sh
-spaces checkout --workflow=<workflow directory>:<workflow name> --name=<workspace folder name>
+spaces checkout-repo \
+  --url=<git-repo-url> \
+  --name=<workspace folder name> \
+  --rev=main
 cd <workspace folder name>
 spaces run //<path to rule>:<rule name>
-
-# you can do inner-loop developement from the command line in the `spaces run` environment using
-source ./env
 ```
 
-Here is an abbreviated example from the spaces [workflows repo](https://github.com/work-spaces/workflows/).
+Here is an example of checking out and running `cargo check` on the `spaces` source code:
 
-```python
-# load the rust script from the sysroot repository
-# // indicates the workspace root.
-load("//@star/packages/star/rust.star", "rust_add")
-load("//@star/sdk/star/checkout.star", "checkout_add_repo")
-load("//@star/sdk/star/run.star", "run_add_exec")
-
-# Checkout the spaces repo
-checkout_add_repo(
-    "spaces",
-    url = "https://github.com/work-spaces/spaces",
-    rev = "main",
-)
-
-# Grab the rust toolchain
-rust_add("rust_toolchain", "1.80")
-
-run_add_exec(
-    "build_spaces",
-    command = "cargo",
-    working_directory = "spaces",
-    args =  [
-        "build",
-        "--profile=release",
-    ],
-)
+```sh
+spaces checkout-repo \
+  --url=https://github.com/work-spaces/spaces \
+  --rev=main \
+  --new-branch=spaces \
+  --name=issue-x-fix-something
+cd issue-x-fix-something
+spaces run //spaces:check
 ```

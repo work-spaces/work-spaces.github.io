@@ -4,7 +4,7 @@ toc: true
 weight: 3
 ---
 
-`spaces` is a statically linked binary. Download it from [Github](https://github.com/work-spaces/spaces/releases).
+`spaces` is a statically linked binary. Download it from [GitHub](https://github.com/work-spaces/spaces/releases).
 
 Install `spaces` at `$HOME/.local/bin`:
 
@@ -12,7 +12,7 @@ Install `spaces` at `$HOME/.local/bin`:
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/work-spaces/install-spaces/refs/heads/main/install.sh)"
 ```
 
-> The command above requires `curl`, `unzip` and `sed`.
+> The command above requires `curl`, `unzip`, and `sed`.
 
 Install from source using `cargo`:
 
@@ -22,4 +22,4 @@ cd spaces
 cargo install --path=crates/spaces --root=$HOME/.local --profile=release
 ```
 
-Use `spaces` in github actions with https://github.com/work-spaces/install-spaces.
+Use `spaces` in GitHub Actions with [install-spaces](https://github.com/work-spaces/install-spaces).
