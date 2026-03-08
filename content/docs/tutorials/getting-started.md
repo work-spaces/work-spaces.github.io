@@ -2,6 +2,7 @@
 title: Getting Started
 toc: false
 weight: 1
+prev: /docs/tutorials
 ---
 
 Quickly checkout the spaces source and and stand-up a Rust toolchain specific to the workspace.

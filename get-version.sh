@@ -1,11 +1,10 @@
-
 #!/bin/bash
 
-cat > content/docs/version.md << 'EOF'
+cat > content/docs/reference/version.md << 'EOF'
 ---
 title: Version
 toc: false
-weight: 0
+weight: 1
 ---
 
 This documention covers:
@@ -15,9 +14,9 @@ This documention covers:
 ```
 EOF
 
-spaces --version >> content/docs/version.md
+spaces --version >> content/docs/reference/version.md
 
-cat >> content/docs/version.md << 'EOF'
+cat >> content/docs/reference/version.md << 'EOF'
 ```
 
 [SDK](https://github.com/work-spaces/sdk) version:
@@ -25,9 +24,9 @@ cat >> content/docs/version.md << 'EOF'
 ```
 EOF
 
-git -C ../@star/sdk describe --tags --abbrev=0 >> content/docs/version.md
+git -C ../@star/sdk describe --tags --abbrev=0 >> content/docs/reference/version.md
 
-cat >> content/docs/version.md << 'EOF'
+cat >> content/docs/reference/version.md << 'EOF'
 ```
 
 [Packages](https://github.com/work-spaces/packages) version:
@@ -35,8 +34,8 @@ cat >> content/docs/version.md << 'EOF'
 ```
 EOF
 
-git -C ../@star/packages describe --tags --abbrev=0 >> content/docs/version.md
+git -C ../@star/packages describe --tags --abbrev=0 >> content/docs/reference/version.md
 
-cat >> content/docs/version.md << 'EOF'
+cat >> content/docs/reference/version.md << 'EOF'
 ```
 EOF

@@ -1,5 +1,5 @@
-@star/
-builtins.md
-help.md
-version.md
+reference/@star/
+reference/builtins.md
+reference/help.md
+reference/version.md
 *.spaces.md

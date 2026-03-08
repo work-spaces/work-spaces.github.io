@@ -1,14 +1,14 @@
 ---
 title: Writing Rules
 toc: true
-weight: 4
+weight: 2
 ---
 
 `spaces` rules are written in `starlark`, a dialect of python. `starlark` symbols originate from three sources:
 
 - The [standard starlark specification](https://github.com/bazelbuild/starlark/blob/master/spec.md)
-- [Builtins](/docs/builtins/) that call `rust` functions within the `spaces` binary
-  - Built-ins have function wrappers defined in the [SDK](/docs/@star/sdk/)
+- [Builtins](/docs/reference/builtins/) that call `rust` functions within the `spaces` binary
+  - Built-ins have function wrappers defined in the [SDK](/docs/reference/@star/sdk/)
 - `load()` statements that import variables or functions from other starlark scripts
   - `load()` paths can either be relative to the current `star` file or prefixed with `//` to refer to the workspace root
 
@@ -93,7 +93,7 @@ spaces run show:list_directory
 
 ## Adding Checkout Rules
 
-Checkout rules are executed using `spaces checkout-repo`. As described in [Using spaces](/docs/using-spaces/), `spaces` evaluates **module** files in lexicographical order. A typical `0.checkout.spaces.star` script looks like this:
+Checkout rules are executed using `spaces checkout-repo`. As described in [Using spaces](/docs/guides/using-spaces/), `spaces` evaluates **module** files in lexicographical order. A typical `0.checkout.spaces.star` script looks like this:
 
 ```python
 # checkout.add_repo() is a built-in function.

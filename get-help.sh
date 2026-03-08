@@ -1,11 +1,10 @@
-
 #!/bin/bash
 
-cat > content/docs/help.md << 'EOF'
+cat > content/docs/reference/help.md << 'EOF'
 ---
 title: Help Reference
 toc: true
-weight: 8
+weight: 3
 ---
 
 ```sh
@@ -15,9 +14,9 @@ spaces --help
 ```
 EOF
 
-spaces --help >> content/docs/help.md
+spaces --help >> content/docs/reference/help.md
 
-cat >> content/docs/help.md << 'EOF'
+cat >> content/docs/reference/help.md << 'EOF'
 ```
 
 ### Checkout Help
@@ -29,9 +28,9 @@ spaces checkout --help
 ```
 EOF
 
-spaces checkout --help >> content/docs/help.md
+spaces checkout --help >> content/docs/reference/help.md
 
-cat >> content/docs/help.md << 'EOF'
+cat >> content/docs/reference/help.md << 'EOF'
 ```
 
 ### Run Help
@@ -43,9 +42,9 @@ spaces run --help
 ```
 EOF
 
-spaces run --help >> content/docs/help.md
+spaces run --help >> content/docs/reference/help.md
 
-cat >> content/docs/help.md << 'EOF'
+cat >> content/docs/reference/help.md << 'EOF'
 ```
 
 ### Inspect Help
@@ -57,11 +56,8 @@ spaces inspect --help
 ```
 EOF
 
-spaces inspect --help >> content/docs/help.md
+spaces inspect --help >> content/docs/reference/help.md
 
-cat >> content/docs/help.md << 'EOF'
+cat >> content/docs/reference/help.md << 'EOF'
 ```
 EOF
-
-
-

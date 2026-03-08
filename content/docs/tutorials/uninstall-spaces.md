@@ -1,7 +1,7 @@
 ---
 title: Uninstall spaces
 toc: true
-weight: 6
+weight: 3
 ---
 
 - Delete the binary: `rm $HOME/.local/bin/spaces`.

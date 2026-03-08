@@ -1,7 +1,7 @@
 ---
 title: Why spaces?
 toc: true
-weight: 2
+weight: 1
 ---
 
 How do you ensure everyone who checks out your code has all the same tools and dependencies?

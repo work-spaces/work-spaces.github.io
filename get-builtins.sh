@@ -1,11 +1,10 @@
-
 #!/bin/bash
 
-cat > content/docs/builtins.md << 'EOF'
+cat > content/docs/reference/builtins.md << 'EOF'
 ---
 title: Builtin Functions
 toc: true
-weight: 7
+weight: 2
 ---
 
 The contents of this page can be generated using:
@@ -16,4 +15,4 @@ spaces docs
 
 EOF
 
-spaces docs >> content/docs/builtins.md
+spaces docs >> content/docs/reference/builtins.md
