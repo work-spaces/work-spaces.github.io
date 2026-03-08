@@ -11,7 +11,7 @@ A good pattern for checkout rules is to create two checkout modules:
 
 ## Bootstrapping the Workspace
 
-In the first module evaluated (usually `0.checkout.spaces.star`), no files are available to `load()`. Rules must use the starlark [built-ins]().
+In the [first module evaluated](/docs/explainers/checkout-evaluation-order/) (usually `0.checkout.spaces.star`), no files are available to [`load()`](/docs/explainers/labels-and-paths/#load-paths). Rules must use the starlark [built-ins](/docs/reference/builtins/).
 
 Here is an example of a `0.checkout.spaces.star` module that adds the spaces starlark SDK and packages repositories to the workspace:
 
@@ -41,7 +41,7 @@ checkout.add_repo(
 
 ## Adding tools, archives, assets, and repos
 
-Once the SDK and packages repos are available, subsequent modules (e.g. `1.checkout.custom.star`) can `load()` functions from the workspace.
+Once the SDK and packages repos are available, subsequent modules (e.g. `1.checkout.custom.star`) can [`load()`](/docs/explainers/labels-and-paths/#load-paths) functions from the workspace.
 
 ### Tools
 

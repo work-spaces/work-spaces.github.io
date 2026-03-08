@@ -4,7 +4,7 @@ toc: true
 weight: 4
 ---
 
-To keep your workspace up to date with the latest changes from `main`, you can rebase or merge your dev branch onto `main`, then run `spaces sync`.
+To keep your workspace up to date with the latest changes from `main`, you can rebase or merge your [dev branch](/docs/explainers/understanding-dev-branches/) onto `main`, then run [`spaces sync`](/docs/explainers/understanding-dev-branches/#how-spaces-sync-works).
 
 1. **Create a workspace with a dev branch** for the repo you're working on:
 
@@ -12,6 +12,8 @@ To keep your workspace up to date with the latest changes from `main`, you can r
     spaces co my-project fix-the-bug
     cd fix-the-bug
     ```
+
+    See [Using spaces co](/docs/guides/using-co/) for details on `co.spaces.toml`.
 
 2. **Develop normally** — make changes, commit, push on your dev branch.
 
@@ -33,7 +35,7 @@ To keep your workspace up to date with the latest changes from `main`, you can r
 
 ## Multiple Dev Branches
 
-You can create dev branches in multiple repos within the same workspace. Pass multiple entries in `new-branch`:
+You can create [dev branches](/docs/explainers/understanding-dev-branches/#creating-dev-branches) in multiple repos within the same workspace. Pass multiple entries in `new-branch`:
 
 ```sh
 spaces checkout-repo \
@@ -53,7 +55,7 @@ rev = "main"
 new-branch = ["my-lib", "my-app"]
 ```
 
-Both `my-lib` and `my-app` are treated as dev branches and will be skipped during `spaces sync`.
+Both `my-lib` and `my-app` are treated as dev branches and will be [skipped during `spaces sync`](/docs/explainers/understanding-dev-branches/#how-spaces-sync-works).
 
 ## Promoting a Repo to a Dev Branch
 

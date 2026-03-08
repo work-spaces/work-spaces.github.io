@@ -1,5 +1,5 @@
 ---
-title: Spaces Co QuickStart 
+title: Using Spaces Co
 toc: true
 weight: 4
 ---

@@ -1,7 +1,7 @@
 ---
 title: Checkout Evaluation Order
 toc: true
-weight: 2
+weight: 6
 ---
 
 `spaces` has two ways of checking out a workspace:

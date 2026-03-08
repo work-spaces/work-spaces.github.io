@@ -4,7 +4,7 @@ toc: true
 weight: 3
 ---
 
-Most `spaces` run rules are executed using `run_add_exec()` which executes a command in the shell.
+Most `spaces` run rules are executed using `run_add_exec()` which executes a command in the shell. See the [Starlark Lexicon](/docs/explainers/spaces-starlark-lexicon/) for definitions of rules, deps, targets, and other core concepts.
 
 ```python
 load("//@star/sdk/star/run.star", "run_add_exec", "run_log_level_app")
@@ -13,14 +13,14 @@ run_add_exec(
   "show",                         # name of the rule
   command = "ls",                 # command to execute in the shell
   args = ["-alt"],                # arguments to pass to ls
-  working_directory = ".",        # execute in the directory where this rule is
+  working_directory = ".",        # execute in the directory where this rule is — see Labels and Paths
                                   #   default is to execute at the workspace root
-  deps = [":another_rule"],       # another rule in the same module file
+  deps = [":another_rule"],       # a relative label to another rule in the same module
   log_level = run_log_level_app() # show the output of the rule to the user
 )
 ```
 
-Running `spaces run :show` in the same directory as this rule will execute the `show` rule after all dependencies have completed.
+Running `spaces run :show` in the same directory as this rule will execute the `show` rule after all dependencies have completed. See [Rule Labels](/docs/explainers/labels-and-paths/#rule-labels) for more on how to refer to rules.
 
 ## Rule Types
 
@@ -52,7 +52,7 @@ spaces run //:setup
 spaces run //:clean
 ```
 
-Run a single rule by name:
+Run a single rule by name using a [label](/docs/explainers/labels-and-paths/#rule-labels):
 
 ```sh
 spaces run //my-project:build
@@ -62,7 +62,7 @@ spaces run //my-project:build
 
 ### Dependencies
 
-Use `deps` to ensure rules execute in the correct order. `spaces` builds a dependency graph and runs independent rules in parallel:
+Use [`deps`](/docs/explainers/spaces-starlark-lexicon/) to ensure rules execute in the correct order. `spaces` builds a dependency graph and runs independent rules in parallel:
 
 ```python
 run_add_exec(
@@ -83,7 +83,7 @@ run_add_exec(
 
 ### Targets
 
-Use `target_files` and `target_dirs` to declare the outputs of a rule. This lets `spaces` track what a rule produces:
+Use `target_files` and `target_dirs` to declare the [targets](/docs/explainers/spaces-starlark-lexicon/) of a rule. This lets `spaces` track what a rule produces:
 
 ```python
 
@@ -199,7 +199,7 @@ run_add_exec_test(
 
 ## Environment Variables
 
-All rules will have access to the environment variables set during checkout. Pass environment variables to a command using `env` to augment or override them:
+All rules will have access to the environment variables set during [checkout](/docs/guides/using-spaces/#spaces-starlark-sdk). Pass environment variables to a command using `env` to augment or override them:
 
 ```python
 run_add_exec(
@@ -233,7 +233,7 @@ run_add_exec(
 
 ## Visibility
 
-Visibility controls which rules are allowed to depend on a given rule. By default, all rules are public. Use `workspace.set_default_module_visibility_private()` to make all rules in a module private by default (highly recommended).
+[Visibility](/docs/explainers/spaces-starlark-lexicon/) controls which rules are allowed to depend on a given rule. By default, all rules are public. Use `workspace.set_default_module_visibility_private()` to make all rules in a [module](/docs/explainers/spaces-starlark-lexicon/) private by default (highly recommended).
 
 ```python
 load("//@star/sdk/star/run.star", "run_add_exec", "run_add_to_all", "run_log_level_app")
