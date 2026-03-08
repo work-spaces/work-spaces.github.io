@@ -233,9 +233,7 @@ run_add_exec(
 
 ## Visibility
 
-Visibility controls which rules are allowed to depend on a given rule. By default, all rules are public — any rule in the workspace can depend on them. As your workspace grows, it's good practice to make rules private by default and only expose the ones that are part of your public API.
-
-Add `workspace.set_default_module_visibility_private()` to every module to make all rules in that module private by default:
+Visibility controls which rules are allowed to depend on a given rule. By default, all rules are public. Use `workspace.set_default_module_visibility_private()` to make all rules in a module private by default (highly recommended).
 
 ```python
 load("//@star/sdk/star/run.star", "run_add_exec", "run_add_to_all", "run_log_level_app")

@@ -1,7 +1,7 @@
 ---
 title: Getting Started
 toc: false
-weight: 1
+weight: 2
 prev: /docs/tutorials
 ---
 

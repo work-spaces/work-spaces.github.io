@@ -4,22 +4,17 @@ toc: true
 weight: 4
 ---
 
-- **Module**: a `*spaces.star` file evaluated when running `spaces`
-  - **Function Module**: `.star` file defining functions that can be imported with `load()`
-- **Rule**: a definition within a **Module** that specifies a task.
-  - `deps` define the inputs to the rule as either files (specified as globs), other **Rules**
-  - `targets` defines the outputs of the rule. These will become file deps for dependent rule.
-  - `checkout` rules run during `spaces checkout...` and `spaces sync`
-  - `run` rules become part of the workspace dependency graph and are executed when running `spaces run <rule>` or if the rule is a dependency of `<rule>`.
-- **Label** [More Info](labels-and-paths.md): a workspace path to a file or **Rule**. `//` refers to the workspace root; `:` replaces `spaces.star` when referring to a **Rule** within a **Module**. Canonical forms:
-  - **Rule**: `//<path to spaces.star file>:<rule name>`
-  - path: `//<path in workspace>`
-  - relative labels are converted internally to canonical form
-- **Target**: files or directory contentscreated by a **Rule**.
-- **Dependencies** (`deps`): inputs to a **Rule**. These can be files (specified as globs), other **Rules**, or specific **Targets** defined by **Rules**
-- **Visibility**: rule visibility allows developers to control which rules are exposed to other modules.
-  - Private **Visibility**: rules are only visible within the same **Module**.
-  - Public **Visibility**: rules are visible to all **Modules**.
-  - Rules **Visibility**: rules are available to a list of matching rule prefixes only.
-- **Workspace**: the folder that is created when running `spaces checkout...` that is populated from the specified rules.
-  - **Member** A repository or achive that is checked out and made available to the workspace.
+- **Workspace**: the folder created by `spaces checkout` that contains all source code, tools, and configuration for a project.
+  - **Member**: a repository or archive checked out into the workspace.
+- **Module**: a `*spaces.star` file evaluated by `spaces`.
+  - **Function Module**: a `.star` file that defines reusable functions imported with `load()`.
+- **Rule**: a named definition within a module that specifies a task.
+  - **Checkout rules** run during `spaces checkout` and `spaces sync`.
+  - **Run rules** are executed via `spaces run <rule>` or as dependencies of other run rules.
+- **Label**: a path that refers to a file or rule in the workspace. `//` is the workspace root; `:` separates a module path from a rule name. See [Labels and Paths](labels-and-paths.md) for details.
+- **Dependencies** (`deps`): inputs to a rule. These can be file globs, other rules, or specific targets.
+- **Target**: files or directories created by a rule. Targets become file dependencies for downstream rules.
+- **Visibility**: controls which rules are allowed to depend on a given rule.
+  - **Private**: only visible within the same module.
+  - **Public**: visible to all modules.
+  - **Rules**: visible only to a specified list of rules.

@@ -1,7 +1,7 @@
 ---
 title: Installing Spaces
 toc: true
-weight: 2
+weight: 1
 ---
 
 `spaces` is a statically linked binary. Download it from [GitHub](https://github.com/work-spaces/spaces/releases).
