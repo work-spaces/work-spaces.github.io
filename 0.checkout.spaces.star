@@ -6,18 +6,18 @@ checkout.add_repo(
     rule = {"name": "@star/sdk"},
     repo = {
         "url": "https://github.com/work-spaces/sdk",
-        "rev": "c0934a9c1f8b39b99e2ac653e03b11b3d31fa578",
+        "rev": "v0.3.26",
         "checkout": "Revision",
-        "clone": "Default"
-    }
+        "clone": "Default",
+    },
 )
 
 checkout.add_repo(
     rule = {"name": "@star/packages"},
     repo = {
         "url": "https://github.com/work-spaces/packages",
-        "rev": "14d0dec6a8f11e8a20ed0fbeea81058425c98f22",
+        "rev": "v0.2.42",
         "checkout": "Revision",
-        "clone": "Default"
-    }
+        "clone": "Default",
+    },
 )

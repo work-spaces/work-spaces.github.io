@@ -75,7 +75,7 @@ if info.is_ci():
 else:
     starship_add_bash("starship_bash", shortcuts = {})
 
-SPACES_VERSION = "0.15.27"
+SPACES_VERSION = "0.15.29"
 spaces_isolate_workspace("spaces0", "v" + SPACES_VERSION, system_paths = [])
 spaces_add_star_formatter("spaces_formatter", configure_zed = True)
 
