@@ -80,7 +80,7 @@ spaces_add_devutils(
     "spaces0",
     "v" + SPACES_VERSION,
     "devutils-v0.1.12",
-    system_paths = [],
+    system_paths = ["/usr/bin", "/bin"],
 )
 spaces_add_star_formatter("spaces_formatter", configure_zed = True, deps = [":spaces0"])
 
