@@ -137,7 +137,7 @@ Running with `--help` automatically generates usage documentation:
 
 ### Options with Types
 
-```/dev/null/build.exec.star#L1-25
+```python
 #!/usr/bin/env spaces
 
 load("@star/sdk/star/std/args.star", "args_parser", "args_opt", "args_parse")
@@ -166,7 +166,7 @@ else:
 
 ### Repeatable Options (Lists)
 
-```/dev/null/tag.exec.star#L1-21
+```python
 #!/usr/bin/env spaces
 
 load("@star/sdk/star/std/args.star", "args_parser", "args_list", "args_parse")
@@ -191,7 +191,7 @@ for tag in tags:
 
 ### Positional Arguments
 
-```/dev/null/copy.exec.star#L1-21
+```python
 #!/usr/bin/env spaces
 
 load("@star/sdk/star/std/args.star", "args_parser", "args_pos", "args_parse")
@@ -217,7 +217,7 @@ log_info("Copied " + src + " to " + dst)
 
 ### Variadic Arguments
 
-```/dev/null/concat.exec.star#L1-20
+```python
 #!/usr/bin/env spaces
 
 load("@star/sdk/star/std/args.star", "args_parser", "args_pos", "args_parse")
@@ -245,7 +245,7 @@ The `process` module provides low-level control over process execution. For simp
 
 ### Running a Command
 
-```/dev/null/example.exec.star#L1-17
+```python
 #!/usr/bin/env spaces
 
 load("@star/sdk/star/std/process.star", "process_options", "process_run")
@@ -267,7 +267,7 @@ log_info("Output: " + result["stdout"])
 
 ### Capturing Output
 
-```/dev/null/git-info.exec.star#L1-22
+```python
 #!/usr/bin/env spaces
 
 load("@star/sdk/star/std/process.star", "process_options", "process_run", "process_stdout_capture")
@@ -290,7 +290,7 @@ else:
 
 ### Redirecting to Files
 
-```/dev/null/build-log.exec.star#L1-18
+```python
 #!/usr/bin/env spaces
 
 load("@star/sdk/star/std/process.star", "process_options", "process_run", "process_stdout_file", "process_stderr_file")
@@ -310,7 +310,7 @@ log_info("Build finished, logs written to build.log and build.err")
 
 ### Setting Environment Variables
 
-```/dev/null/env-example.exec.star#L1-18
+```python
 #!/usr/bin/env spaces
 
 load("@star/sdk/star/std/process.star", "process_options", "process_run")
@@ -331,7 +331,7 @@ log_info("Server exited with code: " + str(result["status"]))
 
 ### Timeouts
 
-```/dev/null/timeout-example.exec.star#L1-19
+```python
 #!/usr/bin/env spaces
 
 load("@star/sdk/star/std/process.star", "process_options", "process_run")
@@ -353,7 +353,7 @@ else:
 
 ### Background Processes
 
-```/dev/null/background.exec.star#L1-30
+```python
 #!/usr/bin/env spaces
 
 load("@star/sdk/star/std/process.star", "process_options", "process_spawn", "process_wait", "process_is_running")
@@ -383,7 +383,7 @@ log_info("Server exited with status: " + str(result["status"]))
 
 ### Pipelines
 
-```/dev/null/pipeline.exec.star#L1-22
+```python
 #!/usr/bin/env spaces
 
 load("@star/sdk/star/std/process.star", "process_options", "process_pipeline")
@@ -410,7 +410,7 @@ For simpler use cases where you want shell features (pipes, globbing, redirectio
 
 ### Capturing Output
 
-```/dev/null/sh-capture.exec.star#L1-14
+```python
 #!/usr/bin/env spaces
 
 load("@star/sdk/star/std/sh.star", "sh_capture")
@@ -427,7 +427,7 @@ log_info("Python files: " + file_count)
 
 ### Exit Code Checking
 
-```/dev/null/sh-exit.exec.star#L1-17
+```python
 #!/usr/bin/env spaces
 
 load("@star/sdk/star/std/sh.star", "sh_exit_code")
@@ -447,7 +447,7 @@ if sh_exit_code("git diff --quiet") != 0:
 
 ### Line-by-Line Output
 
-```/dev/null/sh-lines.exec.star#L1-14
+```python
 #!/usr/bin/env spaces
 
 load("@star/sdk/star/std/sh.star", "sh_lines")
@@ -463,7 +463,7 @@ for f in files:
 
 ### Full Control with `sh_run`
 
-```/dev/null/sh-run.exec.star#L1-18
+```python
 #!/usr/bin/env spaces
 
 load("@star/sdk/star/std/sh.star", "sh_run")
@@ -516,7 +516,7 @@ Exec modules have access to all functions in the `@star/sdk/star/std` namespace.
 
 Here's a realistic deployment script that combines multiple features:
 
-```/dev/null/deploy.exec.star#L1-90
+```python
 #!/usr/bin/env spaces
 
 load("@star/sdk/star/std/args.star", "args_parser", "args_flag", "args_opt", "args_parse")
@@ -645,7 +645,7 @@ Always use the `args` module instead of manual argument parsing. It provides:
 
 Use `check=True` for critical commands that should fail fast:
 
-```/dev/null/error-handling.exec.star#L1-15
+```python
 load("@star/sdk/star/std/sh.star", "sh_run")
 load("@star/sdk/star/std/log.star", "log_error", "log_fatal")
 
@@ -671,7 +671,7 @@ if not fs_exists("config.json"):
 
 Take advantage of Starlark's data structures:
 
-```/dev/null/structured-data.exec.star#L1-18
+```python
 load("@star/sdk/star/std/fs.star", "fs_read_json", "fs_write_json")
 
 # Read structured config
@@ -693,7 +693,7 @@ fs_write_json("config.json", config, pretty=True)
 
 Use structured logging to make scripts observable:
 
-```/dev/null/logging.exec.star#L1-12
+```python
 load("@star/sdk/star/std/log.star", "log_info", "log_debug", "log_error")
 
 log_info("Starting deployment")
@@ -738,7 +738,7 @@ echo "Done!"
 
 ### Exec Module (Starlark)
 
-```/dev/null/deploy-migration.exec.star#L1-41
+```python
 #!/usr/bin/env spaces
 
 load("@star/sdk/star/std/args.star", "args_parser", "args_opt", "args_parse")

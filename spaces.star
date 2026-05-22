@@ -49,6 +49,8 @@ load("//@star/sdk/star/oras.star", "oras_add_publish_archive")
 load("//@star/sdk/star/process.star", "process_exec")
 load("//@star/sdk/star/run.star", "RUN_EXPECT_ANY", "run_add_exec")
 load("//@star/sdk/star/script.star", "script_print")
+
+#load("//@star/sdk/star/semver.star", "semver_is_valid_version")
 load("//@star/sdk/star/shell.star", "cp")
 load("//@star/sdk/star/spaces-env.star", "spaces_working_env")
 load("//@star/sdk/star/std/args.star", "args_argv")
@@ -62,6 +64,7 @@ load("//@star/sdk/star/std/process.star", "process_stdout_inherit")
 load("//@star/sdk/star/std/sh.star", "sh_run")
 load("//@star/sdk/star/std/string.star", "string_trim")
 load("//@star/sdk/star/std/sys.star", "sys_os")
+load("//@star/sdk/star/std/text.star", "text_scan_file")
 load("//@star/sdk/star/std/time.star", "time_now")
 load("//@star/sdk/star/std/tmp.star", "tmp_dir")
 load("//@star/sdk/star/std/toml.star", "toml_parse_string")
@@ -86,11 +89,11 @@ if info.is_ci():
 else:
     starship_add_bash("starship_bash", shortcuts = {})
 
-SPACES_VERSION = "0.15.41"
+SPACES_VERSION = "0.15.44"
 spaces_add_devutils(
     "spaces0",
     "v" + SPACES_VERSION,
-    "devutils-v0.1.12",
+    "devutils-v0.1.14",
     system_paths = ["/usr/bin", "/bin"],
 )
 spaces_add_star_formatter("spaces_formatter", configure_zed = True, deps = [":spaces0"])
