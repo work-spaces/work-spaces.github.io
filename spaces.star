@@ -47,7 +47,7 @@ load("//@star/sdk/star/gnu.star", "gnu_add_configure_make_install")
 load("//@star/sdk/star/info.star", "info_set_required_semver")
 load("//@star/sdk/star/oras.star", "oras_add_publish_archive")
 load("//@star/sdk/star/process.star", "process_exec")
-load("//@star/sdk/star/run.star", "RUN_EXPECT_ANY", "run_add_exec")
+load("//@star/sdk/star/run.star", "run_add_exec", "run_expect_any")
 load("//@star/sdk/star/script.star", "script_print")
 
 #load("//@star/sdk/star/semver.star", "semver_is_valid_version")
