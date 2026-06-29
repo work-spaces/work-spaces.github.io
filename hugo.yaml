@@ -4,7 +4,7 @@ title: Spaces Docs
 # import hextra as module
 module:
   imports:
-  - path: github.com/imfing/hextra
+    - path: github.com/imfing/hextra
 
 markup:
   # allow raw html
@@ -34,7 +34,11 @@ menu:
 params:
   navbar:
     displayTitle: true
-    displayLogo: false
+    displayLogo: true
+    logo:
+      path: spaces-logo-gray.svg
+      width: 40
+      height: 40
 
   footer:
     displayCopyright: true

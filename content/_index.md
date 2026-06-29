@@ -3,6 +3,8 @@ title: Spaces Docs
 toc: false
 ---
 
+<img src="spaces-logo-gray.svg" alt="Spaces Logo" width="50%" height="auto">
+
 ## Welcome to the Spaces Documentation
 
 {{< cards >}}
