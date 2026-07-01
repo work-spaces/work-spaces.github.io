@@ -110,19 +110,19 @@ run_add_exec(
 
 run_add_exec(
     "builtins",
-    command = "./get-builtins.sh",
+    command = "./scripts/get-builtins.exec.star",
     working_directory = ".",
 )
 
 run_add_exec(
     "help",
-    command = "./get-help.sh",
+    command = "./scripts/get-help.exec.star",
     working_directory = ".",
 )
 
 run_add_exec(
     "version",
-    command = "./get-version.sh",
+    command = "./scripts/get-version.exec.star",
     working_directory = ".",
 )
 
@@ -130,7 +130,8 @@ REMOVE_FILES = [
     "reference/@star/sdk/star/_index.md",
     "reference/@star/packages/star/_index.md",
     "reference/env.spaces.md",
-    "reference/preload.spaces.md",
+    "reference/checkout.spaces.md",
+    "reference/work-spaces.github.io/0.checkout.spaces.md",
     "reference/spaces-docs.spaces.md",
     "reference/work-spaces.github.io/_index.md",
     "reference/work-spaces.github.io/spaces.md",
@@ -185,7 +186,7 @@ run_add_exec(
         "--baseURL=https://work-spaces.github.io/",
     ],
     working_directory = ".",
-    log_level = "App",
+    log_level = "Passthrough",
     deps = BUILD_DEPS,
     help = "Build the release version of the site for deployment",
 )
