@@ -89,7 +89,8 @@ if info.is_ci():
 else:
     starship_add_bash("starship_bash", shortcuts = {})
 
-.17.1"
+SPACES_VERSION = "0.17.1"
+
 spaces_add_devutils(
     "spaces0",
     "v" + SPACES_VERSION,
