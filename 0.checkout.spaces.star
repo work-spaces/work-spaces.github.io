@@ -2,22 +2,17 @@
 Preload script for this workspace.
 """
 
-checkout.add_repo(
-    rule = {"name": "@star/sdk"},
-    repo = {
-        "url": "https://github.com/work-spaces/sdk",
-        "rev": "v0.4.0",
-        "checkout": "Revision",
-        "clone": "Default",
-    },
+load("//@star/prelude/rules/checkout.star", "checkout_add_repo")
+load("internal/version.star", "PACKAGE_REV", "SDK_REV")
+
+checkout_add_repo(
+    "@star/sdk",
+    url = "https://github.com/work-spaces/sdk",
+    rev = SDK_REV,
 )
 
-checkout.add_repo(
-    rule = {"name": "@star/packages"},
-    repo = {
-        "url": "https://github.com/work-spaces/packages",
-        "rev": "v0.2.58",
-        "checkout": "Revision",
-        "clone": "Default",
-    },
+checkout_add_repo(
+    "@star/packages",
+    url = "https://github.com/work-spaces/packages",
+    rev = PACKAGE_REV,
 )

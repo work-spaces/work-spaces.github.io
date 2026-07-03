@@ -21,17 +21,10 @@ load("//@star/packages/star/bazelisk.star", "bazelisk_add")
 load("//@star/packages/star/ccache.star", "ccache_add")
 load("//@star/packages/star/cmake.star", "cmake_add")
 load("//@star/packages/star/llvm.star", "llvm_add")
-load("//@star/packages/star/package.star", "package_add")
 load("//@star/packages/star/python.star", "python_add_uv")
 load("//@star/packages/star/rust.star", "rust_add")
 load("//@star/packages/star/sccache.star", "sccache_add")
 load("//@star/packages/star/shfmt.star", "shfmt_add")
-load(
-    "//@star/packages/star/spaces-cli.star",
-    "spaces_add_devutils",
-    "spaces_add_star_formatter",
-)
-load("//@star/packages/star/starship.star", "starship_add_bash")
 load(
     "//@star/sdk/star/checkout.star",
     "checkout_add_which_asset",
@@ -70,34 +63,11 @@ load("//@star/sdk/star/std/tmp.star", "tmp_dir")
 load("//@star/sdk/star/std/toml.star", "toml_parse_string")
 load("//@star/sdk/star/std/yaml.star", "yaml_parse_string")
 load("//@star/sdk/star/ws.star", "workspace_get_path_to_checkout")
-
-package_add("github.com", "gohugoio", "hugo", "v0.145.0")
-package_add("github.com", "cli", "cli", "v2.68.1")
-package_add("go.dev", "go", "go", "1.23.3")
+load("internal/version.star", "SPACES_VERSION")
 
 info_set_required_semver(">0.10, <0.20.1")
 
 CHECKOUT_PATH = workspace_get_path_to_checkout()
-
-if info.is_ci():
-    checkout_update_env(
-        "ci_github_token",
-        inherited_vars = [
-            "GITHUB_TOKEN",
-        ],
-    )
-else:
-    starship_add_bash("starship_bash", shortcuts = {})
-
-SPACES_VERSION = "0.17.1"
-
-spaces_add_devutils(
-    "spaces0",
-    "v" + SPACES_VERSION,
-    "devutils-v0.1.14",
-    system_paths = ["/usr/bin", "/bin"],
-)
-spaces_add_star_formatter("spaces_formatter", configure_zed = True, deps = [":spaces0"])
 
 run_add_exec(
     "stardoc",
