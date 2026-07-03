@@ -1,91 +1,119 @@
 ---
 title: Why spaces?
+description: Compare common environment setup approaches and see how `spaces` provides reproducible, composable, cross-platform workspaces.
 toc: true
 weight: 1
 ---
 
-## The Problem
+Most teams eventually hit the same setup problem: **how do we guarantee every contributor and every CI job uses the same tools and versions?**
 
-How do you ensure everyone who checks out your code has the same tools and dependencies?
+{{< callout type="warning" >}}
+Without a shared, reproducible workspace model, onboarding slows down, CI drifts from local environments, and version mismatches create hard-to-reproduce bugs.
+{{< /callout >}}
 
-Most teams cobble together a mix of READMEs, setup scripts, and tribal knowledge. New contributors spend hours (or days) getting a working environment. CI pipelines diverge from local setups. Subtle version mismatches cause bugs that are impossible to reproduce.
-
-## Common Approaches
+## Common approaches (and their trade-offs)
 
 ### Docker / Dev Containers
 
-Containers solve reproducibility by isolating everything in an image. However:
+Containers improve reproducibility, but they come with practical friction:
 
-- **Heavy abstraction.** You're running a full Linux userspace, even on macOS and Windows. File I/O through bind mounts is slow, especially on macOS.
-- **IDE friction.** Editors need special extensions or remote connections to work inside containers.
-- **Not composable.** Combining tools from different images requires building a new image.
-- **Linux-only builds.** If you need to build or test natively on macOS or Windows, containers don't help.
+- **Heavy abstraction:** full Linux userspace, even on macOS/Windows.
+- **Slower file I/O on macOS:** bind mounts can be a bottleneck.
+- **IDE friction:** often requires remote/container-specific editor setup.
+- **Limited composability:** combining tools from multiple images usually means building a custom image.
+- **Linux-centric runtime:** not ideal when you must build/test natively on macOS or Windows.
 
-### Monorepos (with Bazel, Buck, etc.)
+### Monorepos (Bazel/Buck/etc.)
 
-Committing all source to a single repository and using a hermetic build system is powerful but comes with trade-offs:
+Monorepos can be powerful, but they impose ecosystem-wide constraints:
 
-- **All or nothing.** Every project must adopt the monorepo's build system and conventions.
-- **Scaling overhead.** Large monorepos require specialized tooling for checkout, indexing, and CI.
-- **Steep learning curve.** Build systems like Bazel have significant complexity — `BUILD` files, `WORKSPACE` rules, toolchain resolution, and remote execution.
+- **All-or-nothing adoption:** projects must align to one build system and conventions.
+- **Scaling overhead:** large repos need specialized tooling for checkout/indexing/CI.
+- **Steep learning curve:** advanced build graph concepts, toolchains, and remote execution.
 
 ### Nix / Guix
 
-Nix provides reproducible environments through a functional package manager:
+Functional package managers are reproducible, but often hard to operationalize:
 
-- **Steep learning curve.** The Nix language and ecosystem are difficult to learn.
-- **Large store.** Nix stores every dependency variant, consuming significant disk space.
-- **Opaque builds.** Understanding what Nix is doing requires deep knowledge of derivations.
-- **Linux-centric.** macOS support exists but is a second-class citizen.
+- **Steep learning curve:** language and ecosystem complexity.
+- **Large local store:** many dependency variants consume significant disk.
+- **Opaque behavior:** debugging derivations requires deep internals knowledge.
+- **Linux-first experience:** macOS support exists, but often feels second-class.
 
-### Package Managers (apt, brew, choco)
+### System Package Managers
 
-System package managers are convenient but problematic for development:
+`apt`, `brew`, and `choco` are convenient, but weak for per-project reproducibility:
 
-- **Global state.** Installing a package changes system state for all projects, creating conflicts.
-- **Version pinning is fragile.** Two projects that need different versions of the same tool clash.
-- **Not reproducible.** `brew install cmake` gives you whatever version is current, not what your project requires.
+- **Global mutable state:** installs affect every project on the machine.
+- **Version conflicts:** two projects needing different tool versions collide.
+- **Weak pinning guarantees:** `brew install cmake` gives current, not necessarily required, versions.
 
-### Build System Dependency Management (CMake FetchContent, Cargo, etc.)
+### Language-specific Dependency Tools
 
-Language-specific tools handle their own ecosystem well but:
+Tools like Cargo/CMake/npm solve dependency management inside one ecosystem:
 
-- **Single-language scope.** They don't manage tools outside their ecosystem (formatters, linters, code generators).
-- **No workspace concept.** They manage build dependencies, not the broader development environment.
+- **Single-language scope:** they do not manage the full developer toolchain.
+- **No workspace model:** they handle build deps, not the complete multi-repo/multi-tool environment.
 
-## How spaces Is Different
+## How `spaces` is different
 
-`spaces` is a lightweight workspace manager — a single, statically linked binary — that gives you:
+`spaces` is a lightweight workspace manager delivered as a single statically linked binary.
 
-| Capability | How spaces does it |
+| Capability | How `spaces` does it |
 |---|---|
 | **Reproducible tools** | Binary archives are downloaded by SHA256 hash and hard-linked from a content-addressed store into your workspace `sysroot`. |
-| **Multi-repo checkout** | Assemble a workspace from multiple git repositories, each at a pinned revision. |
-| **Cross-platform** | Works natively on macOS (x86_64, aarch64), Linux (x86_64), and Windows (x86_64). |
-| **Task execution** | Run builds, tests, and pre-commit checks through a dependency graph with parallel execution. |
-| **Composable** | Starlark rules are just functions. Packages like `rust_add()` and `cmake_add()` encapsulate complex setup behind simple calls. |
-| **Efficient storage** | Downloaded artifacts are SHA256-hashed and stored once in `~/.spaces/store`. Multiple workspaces share the same binaries via hard links. |
-| **IDE integration** | Checkout rules can populate `.vscode/settings.json`, `.zed/settings.json`, and other config so your IDE works immediately. |
+| **Multi-repo checkout** | Assemble one workspace from multiple git repositories, each pinned to a revision. |
+| **Cross-platform** | Works natively on macOS (`x86_64`, `aarch64`), Linux (`x86_64`), and Windows (`x86_64`). |
+| **Task execution** | Runs builds/tests/checks through a dependency graph with parallel execution. |
+| **Composable** | Starlark rules are plain functions. Packages like `rust_add()` and `cmake_add()` hide complex setup behind simple calls. |
+| **Efficient storage** | Artifacts are SHA256-addressed and stored once in `~/.spaces/store`; multiple workspaces share binaries via hard links. |
+| **IDE integration** | Checkout rules can generate `.vscode/settings.json`, `.zed/settings.json`, and related config for immediate editor readiness. |
 
-## How It Works
+{{< callout type="important" icon="sparkles" >}}
+`spaces` aims to keep environments **reproducible like containers**, while remaining **native, composable, and fast** on your host OS.
+{{< /callout >}}
 
-`spaces` executes starlark scripts in two phases:
+## How it works
 
-1. **Checkout**: assemble a workspace — git repos, binary tools, archives, and configuration files.
-2. **Run**: execute tasks (build, test, format, deploy) through a dependency graph.
+`spaces` executes Starlark workflows in two phases:
 
-All workflows follow the same pattern:
+1. **Checkout**: assemble repositories, tools, archives, and config.
+2. **Run**: execute tasks via a dependency graph.
+
+```mermaid
+graph TD
+  A[spaces checkout-repo] --> B[Workspace assembled]
+  B --> C[sysroot/bin contains pinned tools]
+  C --> D[spaces run //rule]
+  D --> E[Tasks run in dependency order with parallelism]
+```
+
+{{% steps %}}
+
+### Checkout a workspace
 
 ```sh
 spaces checkout-repo \
   --url=<git-repo-url> \
   --name=<workspace-folder-name> \
   --rev=main
+```
+
+### Enter the workspace
+
+```sh
 cd <workspace-folder-name>
+```
+
+### Run tasks
+
+```sh
 spaces run
 ```
 
-For example, checking out and building the `spaces` source code:
+{{% /steps %}}
+
+### Concrete example: build `spaces` from source
 
 ```sh
 spaces checkout-repo \
@@ -97,4 +125,6 @@ cd issue-x-fix-something
 spaces run //spaces:check
 ```
 
-The checkout step creates a self-contained workspace folder. Inside, `sysroot/bin` contains the exact tool versions your project needs — isolated from the system and from other workspaces.
+{{< details title="What you get after checkout" >}}
+The checkout step creates a self-contained workspace directory. Inside it, `sysroot/bin` contains the exact tool versions your project needs, isolated from both your system-wide environment and other workspaces.
+{{< /details >}}

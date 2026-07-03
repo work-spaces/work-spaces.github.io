@@ -25,6 +25,22 @@ load("//@star/packages/star/python.star", "python_add_uv")
 load("//@star/packages/star/rust.star", "rust_add")
 load("//@star/packages/star/sccache.star", "sccache_add")
 load("//@star/packages/star/shfmt.star", "shfmt_add")
+load("//@star/prelude/exec/args.star", "args_argv")
+load("//@star/prelude/exec/env.star", "env_get")
+load("//@star/prelude/exec/fs.star", "fs_read_directory")
+load("//@star/prelude/exec/hash.star", "hash_compute_sha256_from_file")
+load("//@star/prelude/exec/json.star", "json_loads")
+load("//@star/prelude/exec/log.star", "log_set_level")
+load("//@star/prelude/exec/path.star", "path_join")
+load("//@star/prelude/exec/process.star", "process_stdout_inherit")
+load("//@star/prelude/exec/sh.star", "sh_run")
+load("//@star/prelude/exec/string.star", "string_trim")
+load("//@star/prelude/exec/sys.star", "sys_os")
+load("//@star/prelude/exec/text.star", "text_scan_file")
+load("//@star/prelude/exec/time.star", "time_now")
+load("//@star/prelude/exec/tmp.star", "tmp_dir")
+load("//@star/prelude/exec/toml.star", "toml_parse_string")
+load("//@star/prelude/exec/yaml.star", "yaml_parse_string")
 load(
     "//@star/sdk/star/checkout.star",
     "checkout_add_which_asset",
@@ -46,22 +62,6 @@ load("//@star/sdk/star/script.star", "script_print")
 #load("//@star/sdk/star/semver.star", "semver_is_valid_version")
 load("//@star/sdk/star/shell.star", "cp")
 load("//@star/sdk/star/spaces-env.star", "spaces_working_env")
-load("//@star/sdk/star/std/args.star", "args_argv")
-load("//@star/sdk/star/std/env.star", "env_get")
-load("//@star/sdk/star/std/fs.star", "fs_read_directory")
-load("//@star/sdk/star/std/hash.star", "hash_compute_sha256_from_file")
-load("//@star/sdk/star/std/json.star", "json_loads")
-load("//@star/sdk/star/std/log.star", "log_set_level")
-load("//@star/sdk/star/std/path.star", "path_join")
-load("//@star/sdk/star/std/process.star", "process_stdout_inherit")
-load("//@star/sdk/star/std/sh.star", "sh_run")
-load("//@star/sdk/star/std/string.star", "string_trim")
-load("//@star/sdk/star/std/sys.star", "sys_os")
-load("//@star/sdk/star/std/text.star", "text_scan_file")
-load("//@star/sdk/star/std/time.star", "time_now")
-load("//@star/sdk/star/std/tmp.star", "tmp_dir")
-load("//@star/sdk/star/std/toml.star", "toml_parse_string")
-load("//@star/sdk/star/std/yaml.star", "yaml_parse_string")
 load("//@star/sdk/star/ws.star", "workspace_get_path_to_checkout")
 load("internal/version.star", "SPACES_VERSION")
 
@@ -103,6 +103,9 @@ REMOVE_FILES = [
     "reference/env.spaces.md",
     "reference/checkout.spaces.md",
     "reference/work-spaces.github.io/0.checkout.spaces.md",
+    "reference/work-spaces.github.io/1.checkout.spaces.md",
+    "reference/work-spaces.github.io/internal/_index.md",
+    "reference/work-spaces.github.io/internal/version.md",
     "reference/spaces-docs.spaces.md",
     "reference/work-spaces.github.io/_index.md",
     "reference/work-spaces.github.io/spaces.md",
