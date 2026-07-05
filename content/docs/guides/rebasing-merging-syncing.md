@@ -4,34 +4,56 @@ toc: true
 weight: 4
 ---
 
-To keep your workspace up to date with the latest changes from `main`, you can rebase or merge your [dev branch](/docs/explainers/understanding-dev-branches/) onto `main`, then run [`spaces sync`](/docs/explainers/understanding-dev-branches/#how-spaces-sync-works).
+Use `spaces sync` to keep your workspace up to date.
 
-1. **Create a workspace with a dev branch** for the repo you're working on:
+{{< callout type="info" >}}
+`spaces sync` updates [dev-branches](/docs/explainers/understanding-dev-branches/) by rebasing them on their target upstream branch (or merging if configured). You do **not** need to manually run `git fetch` + `git rebase` before syncing. But you can if you want to.
+{{< /callout >}}
 
-    ```sh
-    spaces co my-project fix-the-bug
-    cd fix-the-bug
-    ```
+{{% steps %}}
 
-    See [Using spaces co](/docs/guides/using-co/) for details on `co.spaces.toml`.
+### Create a Workspace with a **dev-branch**
 
-2. **Develop normally** — make changes, commit, push on your dev branch.
+```sh
+spaces co my-project fix-the-bug --new-branch=my-project
+cd fix-the-bug
+```
 
-3. **Rebase or merge and sync** — if a teammate pushes changes that modify the checkout rules (e.g. a pinned SDK version or adds a new dependency), run:
+See [Using spaces co](/docs/guides/using-co/) for details on `co.spaces.toml`.
 
-    ```sh
-    git fetch origin main
-    git rebase origin/main
-    spaces sync
-    ```
+### Develop Normally
 
-4. **Run builds and tests** as usual:
+Make changes, commit, and push on your dev branch.
 
-    ```sh
-    spaces run //my-project:build
-    spaces run //:test
-    ```
+### Sync to Integrate with Upstream Changes
 
+```sh
+spaces sync
+```
+
+If you have local uncommitted changes, use:
+
+```sh
+spaces sync --stash
+```
+
+If you want to start development on another repo in the workspace, use:
+
+```sh
+spaces sync --new-branch=my-repo-in-workspace
+```
+
+### Develop as Usual
+
+```sh
+spaces run //my-project:build
+spaces run //:test
+```
+
+{{% /steps %}}
+
+
+For detailed sync behavior and advanced options, see [Repo Checkout and Sync](/docs/explainers/repo-checkout-and-sync/).
 
 ## Multiple Dev Branches
 
@@ -55,8 +77,10 @@ rev = "main"
 new-branch = ["my-lib", "my-app"]
 ```
 
-Both `my-lib` and `my-app` are treated as dev branches and will be [skipped during `spaces sync`](/docs/explainers/understanding-dev-branches/#how-spaces-sync-works).
+Both `my-lib` and `my-app` are treated as dev branches and are updated during `spaces sync` (rebase by default, or merge if configured).
 
 ## Promoting a Repo to a Dev Branch
 
-Run `spaces sync --dev-branch=<path to the repo in the workspace>` to promote a repo to a dev branch. This will prevent spaces from syncing that repo, treating it as a dev branch for the life of the workspace.
+Run `spaces sync --dev-branch=<path to the repo in the workspace>` to promote a repo to a dev branch. Use `spaces sync --new-branch=<path to the repo in the workspace>` if you haven't already created a local branch.
+
+After promotion, `spaces sync` will treat that repo as a **dev-branch** and include it in ***dev-branch** sync behavior (rebase by default, or merge if configured).

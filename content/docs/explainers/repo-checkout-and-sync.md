@@ -5,13 +5,19 @@ toc: true
 weight: 3
 ---
 
-`spaces checkout-repo` (and `spaces co`) sets up the initial repository graph for a workspace. `spaces sync` then re-evaluates checkout rules and updates repositories, including configurable handling for development branches (**dev-branch**).
+`spaces checkout-repo` sets up the initial repositories in a workspace. `spaces sync` re-evaluates checkout rules and updates repositories. Users can mark repositorires for development using development branches (**dev-branch**) to allow the branches to diverge from the checkout rules.
 
 ## Checkout: Create a New Workspace
 
-`spaces checkout-repo` clones the root repo and evaluates top-level `[*.]spaces.star` files, which can add more repos to the workspace.
+`spaces checkout-repo` clones the root repo and evaluates top-level `[*.]spaces.star` files contained in the repo which can add more repos to the workspace.
 
-`spaces co` is a shortcut that loads checkout settings from `co.spaces.toml`. This allows for easily re-created complex workspaces.
+{{< callout type="info" >}}
+See [the checkout evaluation order guide](/docs/explainers/checkout-evaluation-order) for more details on how checkout transitively evaluations spaces starlark modules.
+{{< /callout >}}
+
+{{< callout type="info" >}}
+`spaces co` is a shortcut that loads checkout settings from `co.spaces.toml`. This allows users to re-create complex workspaces. See [the guide](/docs/guides/using-co).
+{{< /callout >}}
 
 ### Creating Development Branches
 
@@ -28,40 +34,80 @@ spaces checkout-repo \
 In this example:
 
 - `spaces` is checked out from `main`.
-- A local branch named `fix-parser-bug` is created for the `spaces` repo.
-- That repo is now tracked as a **dev-branch** for sync planning.
+- A local branch named `fix-parser-bug` is created in the workspace for the `spaces` repo.
+- That repo is now treated as a **dev-branch** during `sync`.
+
+```mermaid
+---
+title: New Branch Checkout
+---
+gitGraph
+   commit
+   commit id: "checkout-repo commit"
+   branch fix-parser-bug
+   checkout fix-parser-bug 
+   commit
+   commit
+   checkout main
+   commit
+```
 
 ## Syncing the Workspace with Upstream Changes
 
 For a monorepo, developers use `git pull` with rebase or merge to synchronize to upstream changes. With `spaces`, a `git pull` can affect the checkout rules causing the state of the workspace go go stale. Additionally, the workspace may have multiple repos that all need to be pulled.
 
-`spaces sync` is used in place of `git pull`. `spaces sync` will rebase/merge **dev-branches** in the workspace, re-run the checkout rules, and report the changes.
+`spaces sync` is used in place of `git pull`. `spaces sync` will rebase or merge **dev-branches** in the workspace, re-run the checkout rules, and report the changes.
 
 | Case | Default sync behavior |
 |---|---|
-| Non-dev repo pinned to a branch | Updates to the latest commit on that branch. |
-| Non-dev repo pinned to a tag/commit | Moves to that exact revision. |
-| Dev-branch repo | Rebases by default (unless overridden). |
+| Dev-branch repo | Rebases on target origin. |
+| Repo pinned to a branch/tag/commit. | Checkout the rev and pull if a branch. |
 
-During sync, a repo's target revision can change based on rules (for example, branch -> tag, or tag/commit -> branch).
+```mermaid
+---
+title: Sync Dev Branch
+---
+gitGraph
+   commit
+   commit id: "checkout-repo commit"
+   branch fix-parser-bug
+   checkout fix-parser-bug 
+   commit
+   commit
+   checkout main
+   commit
+   commit
+   checkout fix-parser-bug
+   merge main id: "rebase on sync"
+   commit
+   commit
+   checkout main
+   commit
+   commit
+```
 
-### Dev-branch strategy controls
+{{< callout type="info" >}}
+During sync evalution, a repo's target revision can change based on rules (for example, branch -> tag, or tag/commit -> branch).
+{{< /callout >}}
 
-By default, dev branches are rebased. You can override this per repo or globally:
+
+### Dev-branch Controls
+
+By default, **dev-branches** are rebased. You can override this per repo or globally:
 
 - `--merge=<repo-path>`: merge instead of rebase.
 - `--no-rebase-repo=<repo-path>`: skip both rebase and merge for that repo.
-- `--no-rebase`: skip rebase for all dev-branch repos (unless explicitly listed in `--merge`).
+- `--no-rebase`: skip rebase for all **dev-branch** repos (unless explicitly listed in `--merge`).
 
 {{< callout type="warning" >}}
-Dev-branch rebases/merges require a valid base reference. If a repo is on a local dev branch but the configured `rev` is a tag/commit (not a branch), pass `--dev-branch-base=<repo-path>=<ref>` so sync knows what to rebase or merge against.
+**Dev-branch** rebases/merges require a valid base reference. If a repo is on a local dev branch but the configured `rev` is a tag/commit (not a branch), pass `--dev-branch-base=<repo-path>=<ref>` so `sync` knows what to rebase or merge against.
 {{< /callout >}}
 
 ## Sync lifecycle
 
 {{% steps %}}
 
-### Pre-Sync Verification
+### Pre-Evaluation Verification
 
 `spaces` collects status for all repos and validates the planned operations.
 
@@ -70,61 +116,66 @@ Validation includes:
 - Are all repos clean?
 - Are local branches associated with upstream branches?
 
-Change the default behavior of `sync` with:
-
-- Use `--dry-run` to just run the pre-sync checks. 
-- Use `--allow-dirty` to skip pre-sync checks evaluate the starlark rules.
-- Use `--dev-branch=<path to repo>` to mark a repository as a **dev-branch**
-  - Use `--dev-branch-base=<path to repo>=origin/<target remote branch>` to specify a target remote branch that is different from the `rev` set in the rules.
-  - Use `--no-rebase` to skip rebasing of all **dev-branches**
-  - Use `--no-repase-repo=<path to repo>` to skip rebasing a specific repo.
-  - Use `--merge=<path to repo>` to merge instead of rebase.
-- Use `--new-brnach=<path to repo>` to mark a repository as a **dev-branch** and create a new branch using the workspace name
-- Use `--stash` to stash changes on dirty repos during pre-sync execution and pop the changes during post-sync execution.
-
-
-{{< callout type="warning" >}}
-If your stashed changes include edits to checkout rules, those edits are **not** part of the sync execution. Sync is executed while the changes are stashed.
-{{< /callout >}}
-
-### Pre-Sync Execution
+### Pre-Evaluation Execution
 
 - Stash changes to dirty repos (if `--stash` specified).
 - Rebase/merge **dev-branches** to the upstream target branches
 
-### Sync: Evaluate and Execute Checkout Rules
+### Evaluation: Evaluate and Execute Checkout Rules
 
-Sync re-evaluates `spaces` modules file-by-file:
+Evaluation re-evaluates `spaces` modules file-by-file:
 
 1. Evaluate one module and build/refresh its graph.
 2. Execute that graph.
 3. Scan any newly checked-out repos for more modules.
 4. Repeat for the next module.
 
-### Post-Sync Execution
+### Post-Evalution Execution
 
 `spaces` re-collects repo status and pops stashes (if `--stash`).
 
-### Post-Sync Reporting
+If evaluation of the spaces starlark modules removed a repository from the workspace, the repository will be deleted during post-evalution. Repositories are only deleted if they have no local changes or commits.
+
+### Post-Evaluation Reporting
 
 `spaces` prints a report of how all the repos changed in the workspace.
 
-
 {{% /steps %}}
+
+{{< details title="Customize Sync Behavior" >}}
+
+- Use `--dry-run` to just run the pre-evaluation checks.
+- Use `--skip-evaluation` to only run the pre-evaluation checks and execution
+  - This is handy for creating a **dev-branch** without doing a full sync.
+- Use `--skip-pre-evaluation` to skip pre-evaluation checks and evaluate the starlark rules.
+- Use `--dev-branch=<path to repo>` to mark a repository as a **dev-branch**
+  - Use `--dev-branch-base=<path to repo>=origin/<target remote branch>` to specify a target remote branch that is different from the `rev` set in the rules.
+  - Use `--no-rebase` to skip rebasing of all **dev-branches**
+  - Use `--no-repase-repo=<path to repo>` to skip rebasing a specific repo.
+  - Use `--merge=<path to repo>` to merge instead of rebase.
+- Use `--new-branch=<path to repo>` to mark a repository as a **dev-branch** and create a new branch using the workspace name.
+  - If the rules specify a tag/commit for the `rev`, this will fail without also passing `--dev-branch-base=<repo>=origin/<branch>`
+- Use `--stash` to stash changes on dirty repos during pre-evaluation execution and pop the changes during post-evaluation execution.
+
+{{< callout type="warning" >}}
+If your stashed changes include edits to checkout rules, those edits are **not** part of the sync execution. Sync is executed while the changes are stashed.
+{{< /callout >}}
+
+{{< /details >}}
 
 ## Sync Flow Chart
 
 ```mermaid
 flowchart TD
-  PPP[Pre-sync planning] Nominal4@==> PSEC{Any Errors?}
-  PSEC Nominal0@==> PSE[Pre-sync Execution]
-  PSE==> ME[Evaluate module]
+  PPP[Pre-Eval planning] Nominal4@==> PSEC{Any Errors?}
+  PSEC Nominal0@==> PSE[Pre-Eval Execution]
+  PSE Nominal6@==> ME[Evaluate module]
   PSEC ==> |Error| PSF(Cannot Sync)
   ME Nominal1@==> RE[Execute graph for module]
   RE Nominal2@==> SNR[Scan new repos for modules]
   SNR Nominal3@==> MM{More modules?}
   MM ==>|Yes| ME
-  MM ==>|No| PSYNCE[Post-sync Execution - pop stashes]
+  MM Nominal7@==>|No| PSYNCE[Post-sync Execution - pop stashes]
   PSYNCE Nominal5@==> PSR[Report Changes]
   Nominal0@{ animation: fast }
   Nominal1@{ animation: fast }
@@ -132,6 +183,8 @@ flowchart TD
   Nominal3@{ animation: fast }
   Nominal4@{ animation: fast }
   Nominal5@{ animation: fast }
+  Nominal6@{ animation: fast }
+  Nominal7@{ animation: fast }
 ```
 
 ## Practical command patterns
@@ -152,10 +205,8 @@ spaces sync \
 spaces sync --dev-branch=my-lib --dev-branch-base=my-lib=origin/main
 ```
 
-## Summary
+## More Info
 
-- Use [`spaces co`](/docs/guides/using-co/) to make checkout setups repeatable.
-- For day-to-day branch workflows, continue with [Rebasing, Merging, and Syncing](/docs/guides/rebasing-merging-syncing/).
 - Check live options with:
 
 ```sh

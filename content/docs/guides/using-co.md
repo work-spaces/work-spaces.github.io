@@ -66,7 +66,7 @@ new-branch = ["//ninja-build:ninja-build"]
 | `store` | Key-value pairs passed to the spaces store configuration. |
 | `create-lock-file` | Set to `true` to generate a lock file during checkout. |
 
-## Example co.spaces.toml
+## Example `co.spaces.toml`
 
 Here is a `co.spaces.toml` that defines several repo checkouts and workflow checkouts:
 

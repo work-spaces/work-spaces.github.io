@@ -56,7 +56,7 @@ load("//@star/sdk/star/gnu.star", "gnu_add_configure_make_install")
 load("//@star/sdk/star/info.star", "info_set_required_semver")
 load("//@star/sdk/star/oras.star", "oras_add_publish_archive")
 load("//@star/sdk/star/process.star", "process_exec")
-load("//@star/sdk/star/run.star", "run_add_exec", "run_expect_any")
+load("//@star/sdk/star/run.star", "run_add", "run_add_exec", "run_expect_any")
 load("//@star/sdk/star/script.star", "script_print")
 
 #load("//@star/sdk/star/semver.star", "semver_is_valid_version")
@@ -119,22 +119,32 @@ run_add_exec(
     working_directory = ".",
 )
 
-TOUCH_INDEX_FILES = [
-    "reference/@star/sdk/_index.md",
-    "reference/@star/packages/_index.md",
-]
+OVERLAY_FILES = {
+    "overlays/prelude_index.md": "content/docs/reference/@star/prelude/_index.md",
+    "overlays/sdk_index.md": "content/docs/reference/@star/sdk/_index.md",
+    "overlays/packages_index.md": "content/docs/reference/@star/packages/_index.md",
+}
 
-run_add_exec(
-    "touch_index_files",
-    command = "touch",
-    args = ["content/docs/{}".format(file) for file in TOUCH_INDEX_FILES],
-    deps = ["stardoc"],
-    working_directory = ".",
+overlay_deps = []
+for source, destination in OVERLAY_FILES.items():
+    name = "overlay_files_" + source
+    overlay_deps.append(name)
+    run_add_exec(
+        name,
+        command = "cp",
+        args = ["-lf", source, destination],
+        deps = ["stardoc"],
+        working_directory = ".",
+    )
+
+run_add(
+    "overlay_files",
+    deps = overlay_deps,
 )
 
 BUILD_DEPS = [
-    "touch_index_files",
     "clean_index_files",
+    "overlay_files",
     "builtins",
     "help",
     "version",
