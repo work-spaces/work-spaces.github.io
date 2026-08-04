@@ -65,7 +65,7 @@ load("//@star/sdk/star/spaces-env.star", "spaces_working_env")
 load("//@star/sdk/star/ws.star", "workspace_get_path_to_checkout")
 load("internal/version.star", "SPACES_VERSION")
 
-info_set_required_semver(">0.10, <0.20.1")
+info_set_required_semver(">0.10, <1.20.1")
 
 CHECKOUT_PATH = workspace_get_path_to_checkout()
 
